@@ -18,22 +18,31 @@
       const [feedback, setFeedback] = React.useState('');
 
       const handleSubmit = async () => {
-        const res = await fetch('/api/execute', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ task })
-        });
-        const data = await res.json();
-        setResponse(data.result);
+        try {
+          const res = await fetch('/api/execute', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ task })
+          });
+          const data = await res.json();
+          setResponse(data.result);
+        } catch (error) {
+          setResponse('Error: ' + error.message);
+        }
       };
 
       const handleFeedback = async () => {
-        await fetch('/api/feedback', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ task, response, feedback })
-        });
-        setFeedback('');
+        try {
+          await fetch('/api/feedback', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ task, response, feedback })
+          });
+          setFeedback('');
+          setResponse('Feedback submitted');
+        } catch (error) {
+          setResponse('Error: ' + error.message);
+        }
       };
 
       return (
