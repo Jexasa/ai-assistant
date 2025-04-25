@@ -1,4 +1,8 @@
-fastapi==0.103.0 
-uvicorn==0.23.2 
-pydantic==2.4.2 
+fastapi==0.103.0
+uvicorn==0.23.2
+pydantic>=2.5.0,<3.0.0
 langchain==0.0.305
+transformers==4.45.0
+weaviate-client==4.8.0
+scrapy==2.11.2
+trl==0.9.6
