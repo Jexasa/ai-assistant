@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
 import sqlite3
@@ -13,13 +12,25 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
-# Mount static files and serve index.html at root
-app.mount("/static", StaticFiles(directory="static"), name="static")
-
+# Serve index.html at root
 @app.get("/")
 async def serve_index():
-    logger.info("Serving index.html")
-    return FileResponse("static/index.html")
+    logger.info("Serving static/index.html")
+    file_path = os.path.join("static", "index.html")
+    if not os.path.exists(file_path):
+        logger.error(f"File not found: {file_path}")
+        return {"error": "index.html not found"}
+    return FileResponse(file_path, media_type="text/html")
+
+# Fallback for direct static access
+@app.get("/static/index.html")
+async def serve_static_index():
+    logger.info("Serving static/index.html directly")
+    file_path = os.path.join("static", "index.html")
+    if not os.path.exists(file_path):
+        logger.error(f"File not found: {file_path}")
+        return {"error": "index.html not found"}
+    return FileResponse(file_path, media_type="text/html")
 
 # SQLite setup
 conn = sqlite3.connect("feedback.db", check_same_thread=False)
@@ -62,7 +73,8 @@ async def store_feedback(request: FeedbackRequest):
 @app.get("/debug")
 async def debug():
     logger.info("Accessing /debug endpoint")
-    return {"static_files": os.listdir("static"), "pwd": os.getcwd()}
+    static_files = os.listdir("static") if os.path.exists("static") else []
+    return {"static_files": static_files, "pwd": os.getcwd()}
 
 if __name__ == "__main__":
     import uvicorn
