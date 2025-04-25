@@ -48,7 +48,7 @@ ai-assistant/
    pip install -r requirements.txt
    pip install torch datasets
    ```
-4. Setup Weaviate and Gemma 2 (see personal_readme.md for details).
+4. Setup Weaviate and Gemma 2.
 5. Run locally:
    ```bash
    python main.py
