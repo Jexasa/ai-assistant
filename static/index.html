@@ -16,6 +16,14 @@
       const [task, setTask] = React.useState('');
       const [response, setResponse] = React.useState('');
       const [feedback, setFeedback] = React.useState('');
+      const [history, setHistory] = React.useState([]);
+
+      React.useEffect(() => {
+        fetch('/api/history')
+          .then(res => res.json())
+          .then(data => setHistory(data.history))
+          .catch(err => console.error('History error:', err));
+      }, []);
 
       const handleSubmit = async () => {
         try {
@@ -27,6 +35,7 @@
           if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
           const data = await res.json();
           setResponse(data.result);
+          setHistory([...history, { task, response: data.result }]);
         } catch (error) {
           setResponse('Error: ' + error.message);
           console.error('Fetch error:', error);
@@ -50,27 +59,29 @@
       };
 
       return (
-        <div className="max-w-2xl mx-auto p-4">
+        <div className="max-w-4xl mx-auto p-4">
           <h1 className="text-2xl font-bold mb-4">AI Assistant</h1>
-          <textarea
-            className="w-full p-2 border rounded"
-            placeholder="Enter task (e.g., Draft an email to John about meeting)"
-            value={task}
-            onChange={(e) => setTask(e.target.value)}
-          />
-          <button
-            className="mt-2 bg-blue-500 text-white p-2 rounded"
-            onClick={handleSubmit}
-          >
-            Execute Task
-          </button>
+          <div className="mb-4">
+            <textarea
+              className="w-full p-2 border rounded"
+              placeholder="Enter task (e.g., Draft an email to John)"
+              value={task}
+              onChange={(e) => setTask(e.target.value)}
+            />
+            <button
+              className="mt-2 bg-blue-500 text-white p-2 rounded"
+              onClick={handleSubmit}
+            >
+              Execute Task
+            </button>
+          </div>
           {response && (
-            <div className="mt-4 p-4 bg-gray-100 rounded">
+            <div className="mb-4 p-4 bg-gray-100 rounded">
               <h2 className="text-lg font-semibold">Response:</h2>
               <p>{response}</p>
               <textarea
                 className="w-full p-2 border rounded mt-2"
-                placeholder="Provide feedback (e.g., Good, but make it more formal)"
+                placeholder="Provide feedback (e.g., More formal)"
                 value={feedback}
                 onChange={(e) => setFeedback(e.target.value)}
               />
@@ -82,6 +93,15 @@
               </button>
             </div>
           )}
+          <div>
+            <h2 className="text-lg font-semibold mb-2">Conversation History</h2>
+            {history.map((item, index) => (
+              <div key={index} className="p-2 border-b">
+                <p><strong>Task:</strong> {item.task}</p>
+                <p><strong>Response:</strong> {item.response}</p>
+              </div>
+            ))}
+          </div>
         </div>
       );
     }
