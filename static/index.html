@@ -4,85 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Assistant</title>
-  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.development.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.development.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/babel-standalone@7.22.10/babel.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-  <div id="root"></div>
-  <script type="text/babel">
-    function App() {
-      const [task, setTask] = React.useState('');
-      const [response, setResponse] = React.useState('');
-      const [feedback, setFeedback] = React.useState('');
-
-      const handleSubmit = async () => {
-        try {
-          const res = await fetch('/api/execute', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ task })
-          });
-          const data = await res.json();
-          setResponse(data.result);
-        } catch (error) {
-          setResponse('Error: ' + error.message);
-        }
-      };
-
-      const handleFeedback = async () => {
-        try {
-          await fetch('/api/feedback', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ task, response, feedback })
-          });
-          setFeedback('');
-          setResponse('Feedback submitted');
-        } catch (error) {
-          setResponse('Error: ' + error.message);
-        }
-      };
-
-      return (
-        <div className="max-w-2xl mx-auto p-4">
-          <h1 className="text-2xl font-bold mb-4">AI Assistant</h1>
-          <textarea
-            className="w-full p-2 border rounded"
-            placeholder="Enter task (e.g., Draft an email to John about meeting)"
-            value={task}
-            onChange={(e) => setTask(e.target.value)}
-          />
-          <button
-            className="mt-2 bg-blue-500 text-white p-2 rounded"
-            onClick={handleSubmit}
-          >
-            Execute Task
-          </button>
-          {response && (
-            <div className="mt-4 p-4 bg-gray-100 rounded">
-              <h2 className="text-lg font-semibold">Response:</h2>
-              <p>{response}</p>
-              <textarea
-                className="w-full p-2 border rounded mt-2"
-                placeholder="Provide feedback (e.g., Good, but make it more formal)"
-                value={feedback}
-                onChange={(e) => setFeedback(e.target.value)}
-              />
-              <button
-                className="mt-2 bg-green-500 text-white p-2 rounded"
-                onClick={handleFeedback}
-              >
-                Submit Feedback
-              </button>
-            </div>
-          )}
-        </div>
-      );
-    }
-
-    ReactDOM.render(<App />, document.getElementById('root'));
-  </script>
+  <div class="max-w-2xl mx-auto p-4">
+    <h1 class="text-2xl font-bold mb-4">AI Assistant Test</h1>
+    <p class="text-lg">If you see this, the page is served correctly. React will be added back after testing.</p>
+  </div>
 </body>
 </html>
