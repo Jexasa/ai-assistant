@@ -1,6 +1,6 @@
 # AI Assistant
 
-A modular AI assistant built to perform non-physical tasks, evolve daily via internet data and user feedback, and remember interactions. It uses a lightweight LLM (Gemma 2 9B), a React frontend, FastAPI backend, Weaviate for memory, and Scrapy for web scraping. Deployable locally or on Render’s free tier.
+A modular AI assistant built to perform autonomy tasks, evolve daily via internet data and user feedback, and remember interactions. It uses a lightweight LLM (Gemma 2 9B), a React frontend, FastAPI backend, Weaviate for memory, and Scrapy for web scraping. Deployable locally or on Render (free tier available).
 
 ## Features
 - **Core LLM**: Gemma 2 (9B) for local inference; mock for Render.
@@ -24,12 +24,12 @@ ai-assistant/
 ├── static/
 │   └── index.html        # React frontend
 ├── spiders/
-│   └── news_spider Asc    # Scrapy spider for web scraping
+│   └── news_spider Asc  # Scrapy spider for web scraping
 ├── main.py              # FastAPI backend
 ├── finetune.py          # Fine-tuning script
-├── requirements.txt      # Python dependencies
+├── requirements.txt     # Python dependencies
 ├── render.yaml          # Render deployment config
-├── README.md            # This file
+├── README.md            
 ```
 
 ## Setup and Installation
